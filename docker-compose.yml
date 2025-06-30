@@ -1,5 +1,19 @@
-# docker run --name log-generator siem-log-app
-
 services:
   log-generator:
-    
+    build: ./app
+    container_name: log-generator
+    volumes:
+      - logs:/app
+    working_dir: /app
+
+  fluent-bit:
+    image: fluent/fluent-bit:latest
+    container_name: fluent-bit
+    volumes:
+      - logs:/logs
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./fluent-bit/parsers.conf:/fluent-bit/parsers.conf
+    command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.conf"]
+
+volumes:
+  logs:
