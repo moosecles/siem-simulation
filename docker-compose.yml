@@ -1,0 +1,5 @@
+# docker run --name log-generator siem-log-app
+
+services:
+  log-generator:
+    
