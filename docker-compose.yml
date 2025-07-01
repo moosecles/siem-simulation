@@ -3,7 +3,7 @@ services:
     build: ./app
     container_name: log-generator
     volumes:
-      - logs:/app
+      - logs:/logs
     working_dir: /app
 
   fluent-bit:
@@ -12,8 +12,63 @@ services:
     volumes:
       - logs:/logs
       - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./fluent-bit/parsers.conf:/fluent-bit/parsers.conf
+      - ./fluent-bit/parser.conf:/fluent-bit/etc/parser.conf
+
     command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.conf"]
+    restart: always
+    depends_on:
+      - kafka
+
+  splunk:
+    image: splunk/splunk:latest
+    container_name: splunk
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: ${SPLUNK_PASSWORD}
+    volumes:
+      - splunk-data:/opt/splunk/etc
+    depends_on:
+      - kafka
+    ports:
+      - "8000:8000"   # Port for the Web UI
+      - "8088:8088"   # Port for the HEC endpoint
+
+  kafka-consumer:
+    build: ./consumer
+    env_file:
+      - .env
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_TOPIC=${KAFKA_TOPIC_NAME}
+      - KAFKA_BOOTSTRAP=${KAFKA_BOOTSTRAP}
+      - SPLUNK_HEC=${SPLUNK_HEC_LINK}
+      - SPLUNK_TOKEN=${SPLUNK_TOKEN}
+
+  zookeeper: # Kafka usually depends on this 
+    image: confluentinc/cp-zookeeper:7.6.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"               # Usual default port
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - "9092:9092"               # Usual default port
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1      
 
 volumes:
   logs:
+  splunk-data:
