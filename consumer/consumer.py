@@ -14,11 +14,12 @@ while True:
         )
         break  # On Success
     except Exception as e:
-        print(f"Kafka not ready yet: {e}")
+        print(f"Splunk not ready yet: {e}")
+        time.sleep(5)
+        continue
 
 for msg in consumer:
-    print("🔄 Received from Kafka:", msg.value)
-    time.sleep(0.01)
+    print("Log received from Kafka:", msg.value)
     payload = {"event": json.loads(msg.value), "sourcetype": "_json"}
     headers = {"Authorization": f"Splunk {os.getenv('SPLUNK_TOKEN', 'tokenhere')}"}
     requests.post(

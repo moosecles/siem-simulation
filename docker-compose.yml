@@ -41,7 +41,6 @@ services:
     restart: always  
     depends_on:
       - splunk
-      - kafka
     environment:
       - KAFKA_TOPIC=${KAFKA_TOPIC_NAME}
       - KAFKA_BOOTSTRAP=${KAFKA_BOOTSTRAP}
