@@ -8,10 +8,10 @@ log_levels = [
     "INFO",
     "WARNING",
     "ERROR",
-]  # Couple of random levels for logs that could pop up
+]
 
 
-def generate_log():  # Generates a JSON of logs that have a timestamp, level, user_Id, and random message
+def generate_log():
     log = {
         "timestamp": datetime.now().isoformat(),
         "level": random.choice(log_levels),
@@ -29,11 +29,9 @@ def generate_log():  # Generates a JSON of logs that have a timestamp, level, us
     return log
 
 
-with open(
-    "app.log", "a"
-) as f:  # Creates and writes a log every two seconds to the file
+with open("/logs/app.log", "a") as f:
     while True:
         log_entry = generate_log()
         f.write(json.dumps(log_entry) + "\n")
         f.flush()
-        time.sleep(2)
+        time.sleep(5)

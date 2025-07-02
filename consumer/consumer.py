@@ -2,6 +2,7 @@ from kafka import KafkaConsumer
 import requests
 import json
 import os
+import time
 
 while True:
     try:
@@ -16,13 +17,14 @@ while True:
         print(f"Kafka not ready yet: {e}")
 
 for msg in consumer:
+    print("🔄 Received from Kafka:", msg.value)
+    time.sleep(0.01)
     payload = {"event": json.loads(msg.value), "sourcetype": "_json"}
-    headers = {
-        "Authorization": f"Splunk {os.getenv('SPLUNK_TOKEN', 'ffd507e4-1257-4cf8-be93-4b9387b6a9ba')}"
-    }
+    headers = {"Authorization": f"Splunk {os.getenv('SPLUNK_TOKEN', 'tokenhere')}"}
     requests.post(
         os.getenv("SPLUNK_HEC_LINK", "http://splunk:8088/services/collector"),
         json=payload,
         headers=headers,
         verify=False,
+        timeout=5,
     )
