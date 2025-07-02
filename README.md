@@ -6,7 +6,7 @@ A fully containerized, end-to-end log pipeline using **Python**, **Kafka**, **Fl
 
 ## Demo
 
-<!-- Will update with demo of dashboard once I play around more! -->
+Will update with demo of a sample Splunk dashboard once I play around more!
 
 ---
 
@@ -24,13 +24,13 @@ A fully containerized, end-to-end log pipeline using **Python**, **Kafka**, **Fl
 
 ## Technologies Used
 
-| Tool                      | Why It’s Used                                           |
-| ------------------------- | ------------------------------------------------------- |
-| **Docker/Docker Compose** | Easy orchestration of multi-container environments      |
-| **Kafka**                 | High-throughput message streaming for decoupled systems |
-| **Fluent Bit**            | Lightweight log processor and forwarder                 |
-| **Splunk**                | Enterprise-grade search, monitoring, and analysis       |
-| **Python**                | Kafka Consumer script for parsing and forwarding logs   |
+| Tool                      | Why It’s Used                                                                                                     |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Docker/Docker Compose** | Allows for easy orchestration of multi-container environments                                                     |
+| **Kafka**                 | Fast message delivery system that helps different parts of an app work independently.                             |
+| **Fluent Bit**            | Lightweight log processor and forwarder                                                                           |
+| **Splunk**                | Tool used to search through data, track activity, and gain insights.                                              |
+| **Python**                | Used in `generator.py` to create sample logs and in `consumer.py` to read logs from Kafka and send them to Splunk |
 
 ---
 
@@ -83,17 +83,17 @@ siem-simulation/
 
 ## Learning Lessons & Challenges Faced
 
-- Technologies: Learne how to use all technologies as well as why they were used, besides Python, listed during this project which was challenging in itself
+- Technologies: Gained hands-on experience with the entire tech stack used in this project including Kafka, Fluent Bit, Docker, and Splunk. I learned not just how to use them, but why each one is so valued for it's intended task.
 
-- Race conditions: Kept having certain containers spin up before it was needed, leading to a bunch of errors due to race conditions. Used 'depends-on:' as well as various techniques to keep Avaibility up.
+- Race conditions: Faced errors when certain containers (like the consumer) started before the containers they depended on were ready. Solved this by using Docker Compose's 'depends-on:' property as well as other various techniques to ensure no errors occured.
 
-- Auto Enabling SSL on container spin up: Disabled Splunk's SSL cleanly by using a default.yml to set certain flags instead of direct commands/methods.
+- SSL Issues with Splunk: Splunk enabled SSL by default, which caused communication issues when consuming. I overwrite this cleanly by using a default.yml to set certain flags instead of having to use direct commands.
 
 ## What you can learn from using the project:
 
 - How a realistic log pipeline simulation using Fluent Bit, Kafka, and Splunk is created.
 
-- How to mess around with Splunk Dashboards and sample SOAR/SIEM data.
+- How to analyze/display sample mock SOAR/SIEM logs using Splunk's tools.
 
 ## Questions?
 
