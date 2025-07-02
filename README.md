@@ -83,11 +83,11 @@ siem-simulation/
 
 ## Learning Lessons & Challenges Faced
 
-- Technologies: Gained hands-on experience with the entire tech stack used in this project including Kafka, Fluent Bit, Docker, and Splunk. I learned not just how to use them, but why each one is so valued for it's intended task.
+- `Technologies:` Gained hands-on experience with the entire tech stack used in this project including Kafka, Fluent Bit, Docker, and Splunk. I learned not just how to use them, but why each one is so valued for it's intended task.
 
-- Race conditions: Faced errors when certain containers (like the consumer) started before the containers they depended on were ready. Solved this by using Docker Compose's 'depends-on:' property as well as other various techniques to ensure no errors occured.
+- `Race conditions:` Faced errors when certain containers (like the consumer) started before the containers they depended on were ready. Solved this by using Docker Compose's 'depends-on:' property as well as other various techniques to ensure no errors occured.
 
-- SSL Issues with Splunk: Splunk enabled SSL by default, which caused communication issues when consuming. I overwrite this cleanly by using a default.yml to set certain flags instead of having to use direct commands.
+- `SSL Issues with Splunk:` Splunk enabled SSL by default, which caused communication issues when consuming. I overwrite this cleanly by using a default.yml to set certain flags instead of having to use direct commands.
 
 ## What you can learn from using the project:
 
