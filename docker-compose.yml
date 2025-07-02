@@ -27,6 +27,7 @@ services:
       SPLUNK_PASSWORD: ${SPLUNK_PASSWORD}
     volumes:
       - splunk-data:/opt/splunk/etc
+      - ./default.yml:/tmp/defaults/default.yml      
     depends_on:
       - kafka
     ports:
@@ -37,7 +38,9 @@ services:
     build: ./consumer
     env_file:
       - .env
+    restart: always  
     depends_on:
+      - splunk
       - kafka
     environment:
       - KAFKA_TOPIC=${KAFKA_TOPIC_NAME}
@@ -45,11 +48,11 @@ services:
       - SPLUNK_HEC=${SPLUNK_HEC_LINK}
       - SPLUNK_TOKEN=${SPLUNK_TOKEN}
 
-  zookeeper: # Kafka usually depends on this 
+  zookeeper:  
     image: confluentinc/cp-zookeeper:7.6.0
     container_name: zookeeper
     ports:
-      - "2181:2181"               # Usual default port
+      - "2181:2181"               
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -59,7 +62,7 @@ services:
     container_name: kafka
     hostname: kafka
     ports:
-      - "9092:9092"               # Usual default port
+      - "9092:9092" # Usual default port
     depends_on:
       - zookeeper
     environment:
