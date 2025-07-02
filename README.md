@@ -12,13 +12,13 @@ Will update with demo of a sample Splunk dashboard once I play around more!
 
 ## Components within this project
 
-| Component             | Role                                                      |
-| --------------------- | --------------------------------------------------------- |
-| `log-generator`       | Simulates JSON logs with timestamps, user IDs, and events |
-| `kafka` & `zookeeper` | Message broker and coordination                           |
-| `fluent-bit`          | Parses and routes logs to Kafka                           |
-| `kafka-consumer`      | Pulls logs from Kafka and pushes to Splunk HEC            |
-| `splunk`              | Collects and indexes logs, provides a GUI for searching   |
+| Component                      | Role                                                      |
+| ------------------------------ | --------------------------------------------------------- |
+| `log-generator (app.py)`       | Simulates JSON logs with timestamps, user IDs, and events |
+| `kafka` & `zookeeper`          | Message broker and coordination                           |
+| `fluent-bit`                   | Parses and routes logs to Kafka                           |
+| `kafka-consumer (consumer.py)` | Pulls logs from Kafka and pushes to Splunk HEC            |
+| `splunk`                       | Collects and indexes logs, provides a GUI for searching   |
 
 ---
 
@@ -69,16 +69,18 @@ It may take a minute or two but once Splunk is fully initialized, the Kafka cons
 
 ```plaintext
 siem-simulation/
+├── default.yml  # Used to disable Splunk automatically enabling SSL
 ├── docker-compose.yml
-├── .env
-├── log-generator/
-│   └── generator.py
-├── kafka-consumer/
+├── .env #You need to add this for it to work
+├── README.md
+├── app/
+│   └── app.py #AKA the log generator
+├── consumer/
 │   └── consumer.py
 ├── fluent-bit/
 │   └── fluent-bit.conf
-├── splunk/
-│   └── default.yml  # Used to disable Splunk automatically enabling SSL
+│   └── parser.conf
+
 ```
 
 ## Learning Lessons & Challenges Faced
