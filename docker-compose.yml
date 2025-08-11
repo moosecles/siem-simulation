@@ -25,9 +25,12 @@ services:
     environment:
       SPLUNK_START_ARGS: --accept-license
       SPLUNK_PASSWORD: ${SPLUNK_PASSWORD}
+      SPLUNK_HEC_TOKEN: ${SPLUNK_TOKEN}
     volumes:
       - splunk-data:/opt/splunk/etc
-      - ./default.yml:/tmp/defaults/default.yml      
+      - ./default.yml:/tmp/defaults/default.yml   
+      - ./apps:/opt/splunk/etc/apps   
+      - ./splunk-cim:/opt/splunk/etc/apps/Splunk_CIM
     depends_on:
       - kafka
     ports:

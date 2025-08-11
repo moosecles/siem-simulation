@@ -3,4 +3,3 @@ splunk:
     enable: true
     ssl: false
     port: 8088
-    token: ${SPLUNK_TOKEN}
