@@ -20,7 +20,11 @@ while True:
 
 for msg in consumer:
     print("Log received from Kafka:", msg.value)
-    payload = {"event": json.loads(msg.value), "sourcetype": "_json"}
+    payload = {
+        "event": json.loads(msg.value),
+        "sourcetype": "logstream",
+        "index": "main",
+    }
     headers = {"Authorization": f"Splunk {os.getenv('SPLUNK_TOKEN', 'tokenhere')}"}
     requests.post(
         os.getenv("SPLUNK_HEC_LINK", "http://splunk:8088/services/collector"),

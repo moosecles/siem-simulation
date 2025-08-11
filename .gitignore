@@ -205,3 +205,48 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# -------------------
+# Splunk / SIEM files
+# -------------------
+
+# Ignore all Splunk apps by default
+apps/*
+
+# Allowlist only custom apps 
+!apps/logstream/
+!apps/logstream/**
+
+# Ignore learned/temporary/system apps
+apps/learned/
+apps/search/
+apps/introspection_generator/
+apps/SplunkLightForwarder/
+apps/SplunkUniversalForwarder/
+apps/launcher/
+
+# Ignore local runtime configs 
+apps/*/local/
+apps/*/metadata/local.meta
+apps/*/lookups/*.csv.gz
+apps/*/lookups/*.csv.bz2
+
+# Ignore logs, runtime state, and hot/warm/cold buckets
+var/log/splunk/
+var/run/splunk/
+var/lib/splunk/
+etc/system/local/
+
+# Ignore auth and credential files
+etc/passwd
+etc/authentication.conf
+etc/deployment-passwd
+
+# Ignore user-specific configs
+users/
+etc/users/
+
+# Ignore package archives
+*.spl
+*.tar.gz
