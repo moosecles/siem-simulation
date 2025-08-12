@@ -4,9 +4,9 @@ A fully containerized, end-to-end log pipeline using **Python**, **Kafka**, **Fl
 
 ---
 
-## Demo
+## Example Dashboard
 
-Will update with demo of a sample Splunk dashboard once I play around more!
+![Example of a Dashboard](https://i.gyazo.com/a34dcf377c4e4a2a297d704cb2bc2b90.png)
 
 ---
 
